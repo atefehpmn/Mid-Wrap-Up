@@ -1,32 +1,52 @@
+import java.util.*;
+
 public class Lecture5Exercises {
-
-    /*
-     *   implement a function to create a random password with
-     *   given length using lower case letters
-     *   lecture 5 page 14
-     */
     public String weakPassword(int length) {
-        return null;
+        Random rand = new Random();
+        String pass = "";
+        for (int i = 0; i < length; i++) {
+            pass += (char)(rand.nextInt(26) + 97);
+        }
+        return pass;
     }
-
-    /*
-     *   implement a function to create a random password with
-     *   given length and at least 1 digit and 1 special character
-     *   lecture 5 page 14
-     */
     public String strongPassword(int length) throws Exception {
-        return null;
+        if (length <= 2) {
+            throw new Exception("Length can't be less than 3");
+        }
+        Random rand = new Random();
+        String pass = "";
+        int digitN = rand.nextInt(length - 2);
+        int specialN = rand.nextInt(length - digitN - 2) + 1;
+        digitN++;
+        for (int i = 0; i < digitN; i++){                   //add random number of digits to password
+            pass += (char)(rand.nextInt(9)+49);
+        }
+        for (int i = 0; i < specialN; i++){                 //add random number of special characters to password
+            pass += (char)(rand.nextInt(15)+33);
+        }
+        pass += weakPassword(length - digitN - specialN); //fill the rest of the string with weak password generator
+        char[] array = pass.toCharArray();
+        for (int i = 0; i < length; i++) {    //shuffle the string
+            int randomIndexToSwap = rand.nextInt(length);
+            char temp = array[randomIndexToSwap];
+            array[randomIndexToSwap] = array[i];
+            array[i] = temp;
+        }
+        return new String(array);
     }
-
-    /*
-     *   implement a function that checks if a integer is a fibobin number
-     *   integer n is fibobin is there exist an i where:
-     *       n = fib(i) + bin(fib(i))
-     *   where fib(i) is the ith fibonacci number and bin(i) is the number
-     *   of ones in binary format
-     *   lecture 5 page 17
-     */
-    public boolean isFiboBin(int n) {
+    public boolean isFibBin(int n) {
+        for (int i = 1; i < n; i++) {
+            long fib = fibonacci(i);
+            if (fib + Long.bitCount(fib) == n) {
+                return true;
+            }
+        }
         return false;
+    }
+    public long fibonacci(int n) {  //added the fibonacci method to use in isFibBin
+        if (n == 1 || n == 2) {
+            return 1;
+        }
+        return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }
