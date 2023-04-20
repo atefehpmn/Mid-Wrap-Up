@@ -59,12 +59,12 @@ public class Lecture5ExercisesTest {
 
     @Test
     void isFiboBinTrue() {
-        assertTrue(el5.isFiboBin(2));
+        assertTrue(el5.isFibBin(2));
     }
 
     @Test
     void isFiboBinFalse() {
-        assertFalse(el5.isFiboBin(3));
+        assertFalse(el5.isFibBin(3));
     }
 
 }
